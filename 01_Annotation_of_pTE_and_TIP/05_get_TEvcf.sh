@@ -109,6 +109,7 @@ OUT_TONLY="${OUTPREFIX}.${SVT}.TEonly.vcf.gz"
 bcftools view -O z -o "$OUT_TONLY" -i 'INFO/TE_ID!=""' "$OUT_ANN"
 tabix -p vcf "$OUT_TONLY"
 rm "$OUT_ANN"
+rm "$OUT_ANN.tbi"
 echo "DONE."
 echo "Annotated VCF : $OUT_ANN"
 echo "TE-only VCF   : $OUT_TONLY"
@@ -117,4 +118,5 @@ echo "TE-only VCF   : $OUT_TONLY"
 # 将第 0 步替换为：
 #   bcftools view -O z -o "$FILTERED_VCF" -i 'ALT~"^<'"$SVT"'>$"' "$VCF_IN"
 #   tabix -p vcf "$FILTERED_VCF"
+
 
