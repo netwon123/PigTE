@@ -1,0 +1,2 @@
+##INFO=<ID=TE_ID,Number=1,Type=String,Description="TE family ID">
+##INFO=<ID=TE_CLASS,Number=1,Type=String,Description="TE class">
