@@ -5,3 +5,5 @@ done
 
 #extract and annotate the sv
 ls *split.vcf |while read id;do python ../extract_sv_len50.py $id > ${id}.indel50.vcf;done
+
+awk 'BEGIN {OFS="\t"} {if (length($4) > length($5)) $8=$8";SVTYPE=DEL"; else if (length($4) < length($5)) $8=$8";SVTYPE=INS"; print $0}' BMA_10x.gam.pack_split.vcf.indel50.vcf > BMA_10x.gam.pack_split.vcf.indel50_addType.vcf
