@@ -1,0 +1,7 @@
+ls *gz | while read id;
+do
+bcftools norm --threads 16 -m -both $id -Oz -o ${id}.split.vcf.gz
+done
+
+#extract and annotate the sv
+ls *split.vcf |while read id;do python ../extract_sv_len50.py $id > ${id}.indel50.vcf;done
