@@ -1,0 +1,8 @@
+ls *bam | while read id;
+do
+java -Xmx150G -jar ~/software/MELTv2.2.2/MELT.jar  Deletion-Genotype -w ./ -bamfile $id -bed /public/home/baoqi/02_project_panTE_new/03_benchmark/01_library/del_TE.bed -h ~/01_project_PGG/04_result/00_backone_genome/backone.fa
+ls *tsv > del_list.txt
+java -Xmx150G -jar ~/software/MELTv2.2.2/MELT.jar Deletion-Merge -bed /public/home/baoqi/02_project_panTE_new/03_benchmark/01_library/del_TE.bed -mergelist del_list.txt -h ~/01_project_PGG/04_result/00_backone_genome/backone.fa -o ./
+mv DEL.final_comp.vcf ${id}.del.vcf
+rm *tsv
+done
