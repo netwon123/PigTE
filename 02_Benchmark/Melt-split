@@ -1,0 +1,18 @@
+
+java -jar 01_library/MELTv2.2.2/MELT.jar Preprocess -bamfile BMA.10x.sort.bam_rmM.bam -h ~/01_project_PGG/04_result/00_backone_genome/backone.fa
+
+ls /public/home/baoqi/02_project_panTE_new/03_benchmark/01_library/melt_zip/zips/*zip | while read id;do java -jar ~/software/MELTv2.2.2/MELT.jar IndivAnalysis -bamfile BMA.10x.sort.bam_rmM.bam -w bma_10x_split -h ~/01_project_PGG/04_result/00_backone_genome/backone.fa -t $id -c 50 -r 150;done
+
+ls /public/home/baoqi/02_project_panTE_new/03_benchmark/01_library/melt_zip/zips/*zip | while read id;do  java -jar ~/software/MELTv2.2.2/MELT.jar GroupAnalysis -discoverydir bma_10x_split -h ~/01_project_PGG/04_result/00_backone_genome/backone.fa -t $id -r 150 -n genes_melt_format.bed -w bma_10x_split;done
+
+ls /public/home/baoqi/02_project_panTE_new/03_benchmark/01_library/melt_zip/zips/*zip | while read id;do java -jar ~/software/MELTv2.2.2/MELT.jar Genotype  -bamfile BMA.10x.sort.bam_rmM.bam -w bma_10x_split -p bma_10x_split  -h ~/01_project_PGG/04_result/00_backone_genome/backone.fa -t $id;done
+
+ls /public/home/baoqi/02_project_panTE_new/03_benchmark/01_library/melt_zip/zips/*zip | while read id;do java -jar ~/software/MELTv2.2.2/MELT.jar MakeVCF -genotypingdir bma_10x_split -p bma_10x_split -o bma_10x_split2  -w bma_10x_split -t $id -h ~/01_project_PGG/04_result/00_backone_genome/backone.fa;done
+
+
+cd bma_10x_split2
+ls *vcf | while read id;do bgzip -@ 8 $id;done
+ls *gz | while read id;do tabix -f $id;done
+ls *vcf.gz > merge.list
+bcftools merge -l merge.list -Oz -o BMA.10x.sort.bam_rmM.ins.vcf --threads 8
+rm -r bma_10x_split
