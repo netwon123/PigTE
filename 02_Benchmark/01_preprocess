@@ -7,3 +7,8 @@ done
 ls *split.vcf |while read id;do python ../extract_sv_len50.py $id > ${id}.indel50.vcf;done
 
 awk 'BEGIN{OFS="\t"} /^#/ {print; next} {if(length($4)>length($5)) $8=$8";SVTYPE=DEL"; else if(length($4)<length($5)) $8=$8";SVTYPE=INS"; print}' BMA_10x.gam.pack_split.vcf.indel50.vcf > BMA_10x.gam.pack_split.vcf.indel50_addType.vcf
+
+
+
+
+ ls bkx_sort_* | while read id; do truvari bench -b ../../true_set/BKX_own.pbsv.vcf.filted.vcf.rmBND.vcf.indel2.vcf.gz_DEL.vcf.gz -c $id -f ~/01_project_PGG/04_result/00_backone_genome/backone.fa  -t  -p 0 --passonly -s 50 -r 1000 --no-ref a -o result-${id};done
